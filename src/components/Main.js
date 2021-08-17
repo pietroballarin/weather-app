@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Searchbar from './Searchbar';
 import axios from 'axios';
-
+console.log(process.env.REACT_APP_WEATHER_KEY)
 export default function Main() {
 
     const [location, setLocation] = useState('');
@@ -10,9 +10,8 @@ export default function Main() {
         setLocation(event)
     }
 
-
     useEffect(() => {
-        axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=32f3d81b930a554de1f8f5b3e81b903f`)
+        axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=`)
         .then(function (response) {
             console.log(response.data);
         }).catch(function (error) {
