@@ -6,7 +6,7 @@ export default function Searchbar(props) {
     const handleChange = (e) => {
         props.handleLocationChange(e)
     }
-
+    
     return (
         <div>
             <label>Your Location </label>
