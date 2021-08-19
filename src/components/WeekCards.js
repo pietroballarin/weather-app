@@ -20,7 +20,9 @@ export default function WeekCards(props) {
 
     return (
         <div>
-            
+            <h2></h2>
+            <img></img>
+            <p></p>
         </div>
     )
 }
