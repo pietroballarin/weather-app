@@ -23,6 +23,7 @@ export default function WeekCards(props) {
             <h2></h2>
             <img></img>
             <p></p>
+            <p></p>
         </div>
     )
 }
