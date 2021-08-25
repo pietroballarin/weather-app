@@ -19,10 +19,10 @@ export default function WeekCards(props) {
     }, [coor]);
 
     return (
-        <div>
+        <div className="weekday-box">
         {weeklyData.slice(1).map(function(day, index) {
             return (
-                <div key={index}>
+                <div key={index} className="single-weekday-box">
                     <h2>{(new Date(day.dt * 1000)).toLocaleString("en-US", {weekday: "short", day: "numeric", month: "short"})}</h2>
                     <img 
                     src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}

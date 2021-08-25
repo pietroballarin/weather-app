@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WeekCards from './WeekCards';
+import Chart from './Chart';
 import axios from 'axios';
 
 export default function MainCard(props) {
@@ -43,14 +44,17 @@ export default function MainCard(props) {
     const altImgText = `${weatherData.weather}`;
 
     return (
-        <div>
-            <div>
-                <img src={imageLink} alt={altImgText}></img>
-                <h1>{weatherData.weather}</h1>
-                <p>{weatherData.description}</p>
-                <h2>{weatherData.temperature}°C</h2>
-                <p>Max {weatherData.tempMax}°C</p>
-                <p>Min {weatherData.tempMin}°C</p>
+        <div className="day-week-box">
+            <div className="day-chart-box">
+                <div className="current-day-box">
+                    <img src={imageLink} alt={altImgText}></img>
+                    <h1>{weatherData.weather}</h1>
+                    <p>{weatherData.description}</p>
+                    <h2>{weatherData.temperature}°C</h2>
+                    <p>Max {weatherData.tempMax}°C</p>
+                    <p>Min {weatherData.tempMin}°C</p>
+                </div>
+                <Chart/>
             </div>
             <div>
                 <WeekCards
