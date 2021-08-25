@@ -9,7 +9,7 @@ export default function WeekCards(props) {
 
     useEffect(() => {
         
-        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coor.lat}&lon=${coor.lon}&exclude=current,minutely,hourly&appid=32f3d81b930a554de1f8f5b3e81b903f`)
+        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coor.lat}&lon=${coor.lon}&exclude=current,minutely,hourly&appid=`)
         .then(function (response) {
             console.log(response.data.daily);
             setWeeklyData(response.data.daily)

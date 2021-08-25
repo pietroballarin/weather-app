@@ -5,7 +5,7 @@ import MainCard from './MainCard';
 
 export default function Main() {
 
-    const [location, setLocation] = useState('Berlin');
+    const [location, setLocation] = useState('');
     
 
     const handleLocationChange = (event) => {
