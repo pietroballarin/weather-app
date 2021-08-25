@@ -3,13 +3,9 @@ import axios from 'axios';
 
 export default function WeekCards(props) {
 
-    const [weeklyData, setWeeklyData] = useState([])
+    const [weeklyData, setWeeklyData] = useState([]);
 
-    console.log(weeklyData.map(day=>day.temp.day))
-
-    const coor = props.savedCoordinates
-
-    const weekDaysArr = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const coor = props.savedCoordinates;
 
     useEffect(() => {
         
@@ -24,27 +20,20 @@ export default function WeekCards(props) {
 
     return (
         <div>
-            {weekDaysArr.map(function(day, index){
-                return (
-                    <div key={index}>
-                        <h2>{day}</h2>
-                    </div>
-                )
-            })}
-
-            {weeklyData.map(function (day, index){
-                return (
-                    <div key={index}>
-                        <img 
-                        src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
-                        alt={day.weather[0].main}
-                        >
-                        </img>
-                        <h3>{day.weather[0].main}</h3>
-                        <p>{(day.temp.day - 273.15).toFixed(1)}°C</p>
-                    </div>
-                )   
-            })}
+        {weeklyData.slice(1).map(function(day, index) {
+            return (
+                <div key={index}>
+                    <h2>{(new Date(day.dt * 1000)).toLocaleString("en-US", {weekday: "short", day: "numeric", month: "short"})}</h2>
+                    <img 
+                    src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
+                    alt={day.weather[0].main}
+                    >
+                    </img>
+                    <h3>{day.weather[0].main}</h3>
+                    <p>{(day.temp.day - 273.15).toFixed(1)}°C</p>
+                </div>
+            )   
+        })}
         </div>
     )
 }
