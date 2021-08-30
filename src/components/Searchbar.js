@@ -8,8 +8,7 @@ export default function Searchbar(props) {
     }
     
     return (
-        <div>
-            <label>Your Location </label>
+        <div className="searchbar">
             <input
                 type="text"
                 placeholder="Location"
