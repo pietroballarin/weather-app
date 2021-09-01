@@ -54,7 +54,9 @@ export default function MainCard(props) {
                     <p>Max {weatherData.tempMax}°C</p>
                     <p>Min {weatherData.tempMin}°C</p>
                 </div>
-                <Chart/>
+                <Chart
+                savedCoordinates={savedCoordinates}
+                />
             </div>
             <div>
                 <WeekCards
