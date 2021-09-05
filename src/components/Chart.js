@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Line } from 'react-chartjs-2';
 
 
 
@@ -9,40 +10,51 @@ export default function Chart(props) {
 
     const coordinates = props.savedCoordinates;
 
-    const APIKey = process.env.REACT_APP_WEATHER_API_KEY;
+    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
     
     console.log(hourlyData)
 
     useEffect(() => {
 
-        axios.get(`http://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,daily,alerts&appid=`)
+        axios.get(`http://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`)
         .then((response) => {
-            const data = response.data.hourly.slice(0,23)
+            const data = response.data.hourly.slice(1, 25)
             console.log(data)
-            setHourlyData([{
-                labels: data.map((hour) => (new Date(hour.dt * 1000)).toLocaleString("en-US", {weekday: "short", day: "numeric", month: "short"})),
+            setHourlyData({
+                labels: data.map((hour) => (new Date(hour.dt * 1000)).toLocaleString('en-GB', { timeZone: 'CET' })),
                 datasets: [
                     {
                         label: "Hourly Weather",
-                        data: data.map((temp) => temp.temp-273.15),
-                        backgroundColor: [
-                            "#ffbb11",
-                            "#ecf0f1",
-                            "#50AF95",
-                            "#f3ba2f",
-                            "#2a71d0"
-                          ]
+                        fill: false,
+                        lineTension: 0.5,
+                        backgroundColor: 'rgba(75,192,192,1)',
+                        borderColor: 'black',
+                        borderWidth: 2,
+                        data: data.map((temp) => temp.temp-273.15)
                     }
                 ]
 
-            }])
+            })
         })
         .catch((error) => console.log(error))
     }, [coordinates])
 
     return (
         <div>
-        
+            <Line
+            data={hourlyData}
+            options={{
+                title:{
+                  display:true,
+                  text:'Hourly Weather',
+                  fontSize:20
+                },
+                legend:{
+                  display:true,
+                  position:'right'
+                }
+              }}
+            />
         </div>
     )
 }

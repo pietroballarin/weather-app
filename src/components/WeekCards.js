@@ -7,9 +7,11 @@ export default function WeekCards(props) {
 
     const coor = props.savedCoordinates;
 
+    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+
     useEffect(() => {
         
-        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coor.lat}&lon=${coor.lon}&exclude=current,minutely,hourly&appid=`)
+        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coor.lat}&lon=${coor.lon}&exclude=current,minutely,hourly&appid=${API_KEY}`)
         .then(function (response) {
             console.log(response.data.daily);
             setWeeklyData(response.data.daily)
