@@ -23,7 +23,7 @@ export default function MainCard(props) {
 
     useEffect(() => {
         
-        axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${props.location}&appid=${API_KEY}`)
+        axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${props.location}&appid=`)
         .then(function (response) {
             // console.log(response.data);
             setWeatherData({

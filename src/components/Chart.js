@@ -14,26 +14,55 @@ export default function Chart(props) {
     
     console.log(hourlyData)
 
+    let width, height, gradient;
+
+    function getGradient(ctx, chartArea) {
+
+        const chartWidth = chartArea.right - chartArea.left;
+        const chartHeight = chartArea.bottom - chartArea.top;
+        if (gradient === null || width !== chartWidth || height !== chartHeight) {
+            // Create the gradient because this is either the first render
+            // or the size of the chart has changed
+            width = chartWidth;
+            height = chartHeight;
+            gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+            gradient.addColorStop(0, 'blue');
+            gradient.addColorStop(0.5, 'yellow');
+            gradient.addColorStop(1, 'red');
+        }
+
+        return gradient;
+    }
+
     useEffect(() => {
 
-        axios.get(`http://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`)
+        axios.get(`http://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,daily,alerts&appid=`)
         .then((response) => {
             const data = response.data.hourly.slice(1, 25)
             console.log(data)
             setHourlyData({
-                labels: data.map((hour) => (new Date(hour.dt * 1000)).toLocaleString('en-GB', { timeZone: 'CET' })),
+                labels: data.map((hour) => (new Date(hour.dt * 1000)).toLocaleString('en-GB', { timeZone: 'CET', hour: '2-digit' })),
                 datasets: [
                     {
-                        label: "Hourly Weather",
+                        label: "Hourly Temperature",
                         fill: false,
-                        lineTension: 0.5,
+                        lineTension: 0.8,
                         backgroundColor: 'rgba(75,192,192,1)',
-                        borderColor: 'black',
+                        borderColor: function(context) {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+                    
+                            if (!chartArea) {
+                              // This case happens on initial chart load
+                              return null;
+                            }
+                            return getGradient(ctx, chartArea);
+                          },
                         borderWidth: 2,
-                        data: data.map((temp) => temp.temp-273.15)
+                        data: data.map((temp) => temp.temp-273.15),
+                        image: 1,
                     }
                 ]
-
             })
         })
         .catch((error) => console.log(error))
@@ -47,7 +76,7 @@ export default function Chart(props) {
                 title:{
                   display:true,
                   text:'Hourly Weather',
-                  fontSize:20
+                  fontSize:20,
                 },
                 legend:{
                   display:true,
