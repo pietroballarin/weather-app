@@ -16,8 +16,6 @@ export default function MainCard(props) {
     const [weatherData, setWeatherData] = useState(weatherObj);
     const [weatherIcon, setWeatherIcon] = useState('');
     const [savedCoordinates, setSavedCoordinates] = useState({lat: '', lon: ''})
-
-    // console.log(savedCoordinates)
     
     const API_KEY = process.env.REACT_APP_WEATHER_API_KEY
 
@@ -25,7 +23,6 @@ export default function MainCard(props) {
         
         axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${props.location}&appid=`)
         .then(function (response) {
-            // console.log(response.data);
             setWeatherData({
                 weather: response.data.weather[0].main,
                 description: response.data.weather[0].description,

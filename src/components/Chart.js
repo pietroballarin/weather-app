@@ -7,12 +7,15 @@ import { Line } from 'react-chartjs-2';
 export default function Chart(props) {
 
     const [hourlyData, setHourlyData] = useState();
+    const [hourlyWeatherIcon, setHourlyWeatherIcon] = useState([]);
+
+    console.log(hourlyWeatherIcon.map(function(element){
+        return element.weather[0].icon
+    }))
 
     const coordinates = props.savedCoordinates;
 
     const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-    
-    console.log(hourlyData)
 
     let width, height, gradient;
 
@@ -27,7 +30,8 @@ export default function Chart(props) {
             height = chartHeight;
             gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
             gradient.addColorStop(0, 'blue');
-            gradient.addColorStop(0.5, 'yellow');
+            gradient.addColorStop(0.4, 'green')
+            gradient.addColorStop(0.7, 'yellow');
             gradient.addColorStop(1, 'red');
         }
 
@@ -39,7 +43,7 @@ export default function Chart(props) {
         axios.get(`http://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,daily,alerts&appid=`)
         .then((response) => {
             const data = response.data.hourly.slice(1, 25)
-            console.log(data)
+            setHourlyWeatherIcon(data.map(el => el))
             setHourlyData({
                 labels: data.map((hour) => (new Date(hour.dt * 1000)).toLocaleString('en-GB', { timeZone: 'CET', hour: '2-digit' })),
                 datasets: [
@@ -68,6 +72,8 @@ export default function Chart(props) {
         .catch((error) => console.log(error))
     }, [coordinates])
 
+    
+
     return (
         <div>
             <Line
@@ -84,6 +90,15 @@ export default function Chart(props) {
                 }
               }}
             />
+            <div>
+                {hourlyWeatherIcon.map(function(el, index) {
+                    return (
+                        <div key={index}>
+                            <img src={`http://openweathermap.org/img/wn/${el.weather[0].icon}.png`}/>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }
