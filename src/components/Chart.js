@@ -75,7 +75,7 @@ export default function Chart(props) {
     
 
     return (
-        <div>
+        <div classname="chart">
             <Line
             data={hourlyData}
             options={{
@@ -90,7 +90,7 @@ export default function Chart(props) {
                 }
               }}
             />
-            <div>
+            <div className="hourly-icons">
                 {hourlyWeatherIcon.map(function(el, index) {
                     return (
                         <div key={index}>
